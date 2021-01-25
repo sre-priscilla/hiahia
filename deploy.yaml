@@ -1,25 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: hiahia
   name: hiahia
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: client
+      app: hiahia
   strategy: {}
   template:
     metadata:
       labels:
-        app: client
+        app: hiahia
     spec:
       containers:
-      - image: registry.cn-shanghai.aliyuncs.com/ayane/hiahia
-        name: hiahia
+      - name: server
+        image: registry.cn-shanghai.aliyuncs.com/ayane/hiahia
+        imagePullPolicy: Always
         command:
           - server
+        ports:
+        - containerPort: 8080
+          protocol: TCP
         resources:
           limits:
             cpu: 100m
@@ -36,7 +38,7 @@ spec:
   selector:
     app: hiahia
   ports:
-  - name: service
+  - name: server
     port: 8080
     protocol: TCP
     targetPort: 8080
