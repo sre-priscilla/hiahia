@@ -4,5 +4,5 @@ COPY . /go/src/hiahia
 WORKDIR /go/src/hiahia
 RUN make build
 
-FROM alpine:latest as runner
+FROM busybox:glibc as runner
 COPY --from=0 /go/src/hiahia/server /usr/local/bin/

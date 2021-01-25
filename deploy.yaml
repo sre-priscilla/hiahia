@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hiahia
+  name: hiahia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - image: registry.cn-shanghai.aliyuncs.com/ayane/hiahia
+        name: hiahia
+        command:
+          - server
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hiahia
+spec:
+  type: ClusterIP
+  selector:
+    app: hiahia
+  ports:
+  - name: service
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+
+  
